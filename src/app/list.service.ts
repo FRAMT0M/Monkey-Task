@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ListService {
 
   list: any[];
+  listService: any;
 
   constructor() { 
     this.list = [[]];
@@ -50,4 +51,19 @@ export class ListService {
     this.list[listIndex].splice(to, 0, element);
     this.saveList(listIndex);    
   }
+  addItem(newItem: any) {
+    const listIndex = 0; // Índice de la lista en la que deseas agregar la tarea (puedes ajustarlo según tu estructura de datos)
+    
+    const taskItem = {
+      date: newItem.date,
+      task: newItem.task,
+      department: newItem.department,
+      status: 'Pendiente' // Estado inicial de la tarea (puedes ajustarlo según tus necesidades)
+    };
+  
+    // Agregar la tarea a la lista correspondiente en el servicio
+    this.listService.getList(listIndex).push(taskItem);
+    this.listService.saveList(listIndex);
+  }
+  
 }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 import { ListService } from '../list.service';
 
 @Component({
@@ -9,67 +8,43 @@ import { ListService } from '../list.service';
   styleUrls: ['./add-edit-item.page.scss'],
 })
 export class AddEditItemPage {
-  item: any;
-  tabIndex: number;
-  itemIndex: number;
-  buttons: Array<string>;
+  departments: string[] = [
+    'Mantenimiento',
+    'Ama de llaves',
+    'Recepción',
+    'Departamento de Calidad',
+    'Alimentos y bebidas',
+    'Cocina',
+    'Administración',
+    'Comercial',
+    'Manager y Social Media',
+    'Seguridad',
+    'Vacation Club',
+    'Animación'
+  ];
+
+  selectedDepartment: string = '';
+  item: any = {};
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public alertController: AlertController,
     private listService: ListService
-  ) {
-    this.buttons = ["radio-button-off", "radio-button-on", "snow", "flame"];
-
-    const tabIndexParam = this.route.snapshot.paramMap.get('tab');
-    const itemIndexParam = this.route.snapshot.paramMap.get('item');
-
-    this.tabIndex = tabIndexParam ? +tabIndexParam : -1;
-    this.itemIndex = itemIndexParam ? +itemIndexParam : -1;
-
-    if (this.itemIndex >= 0) {
-      const tempItem = this.listService.getItem(this.tabIndex, this.itemIndex);
-      if (tempItem) {
-        this.item = Object.assign({}, tempItem);
-        if (this.item.date) {
-          this.item.date = new Date(this.item.date).toISOString();
-        }
-      } else {
-        this.item = {
-          date: new Date().toISOString(),
-          task: '',
-          icon: 'radio-button-off'
-        };
-      }
-    } else {
-      this.item = {
-        date: new Date().toISOString(),
-        task: '',
-        icon: 'radio-button-off'
-      };
-    }
-  }
-
-  async error(message: any) {
-    const alert = await this.alertController.create({
-      message: message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
+  ) {}
 
   save() {
-    if (!this.item?.task?.length) {
-      this.error('The task cannot be empty');
-    } else {
-      if (this.itemIndex >= 0) {
-        this.listService.setItem(this.tabIndex, this.item, this.itemIndex);
-      } else {
-        this.listService.setItem(this.tabIndex, this.item);
-      }
-      this.router.navigate(['/home']);
+    if (!this.item.task) {
+      console.error('La tarea no puede estar vacía.');
+      return;
     }
+
+    const newItem = {
+      date: this.item.date || new Date().toISOString(),
+      task: this.item.task,
+      department: this.selectedDepartment
+    };
+
+    this.listService.addItem(newItem);
+    this.router.navigate(['/home']);
   }
 }

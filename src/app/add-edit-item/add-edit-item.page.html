@@ -1,36 +1,32 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Monkey-Task</ion-title>
-    <ion-buttons slot="primary">
-        <ion-button color="danger" [routerLink]="['/home']">
-          <ion-icon slot="icon-only" name="close"></ion-icon>
-        </ion-button>
-        <ion-button color="primary" (click)="save()">
-          <ion-icon slot="icon-only" name="checkmark"></ion-icon>
-        </ion-button>        
-    </ion-buttons>       
+    <ion-title>Agregar Tarea</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label position="floating">Select date</ion-label>
-      <ion-datetime display-format="D MMM YYYY" max="2050-12-31" [(ngModel)]="item.date"></ion-datetime>      
+      <ion-label>Departamento</ion-label>
+      <ion-select [(ngModel)]="selectedDepartment">
+        <ion-select-option *ngFor="let department of departments" [value]="department">
+          {{ department }}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
+
     <ion-item>
-      <ion-label position="floating">Enter task</ion-label>
+      <ion-label position="floating">Fecha</ion-label>
+      <ion-datetime display-format="D MMM YYYY" max="2050-12-31" [(ngModel)]="item.date"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tarea</ion-label>
       <ion-input [(ngModel)]="item.task"></ion-input>
     </ion-item>
   </ion-list>
-  <ion-segment [(ngModel)]="item.icon">
-    <ion-segment-button value="button1">
-      <ion-icon name="button1"></ion-icon>
-    </ion-segment-button>
-    <ion-segment-button value="button2">
-      <ion-icon name="button2"></ion-icon>
-    </ion-segment-button>
-    <ion-segment-button value="button3">
-      <ion-icon name="button3"></ion-icon>
-    </ion-segment-button>
-  </ion-segment>
+
+  <div class="button-container">
+    <ion-button expand="full" color="primary" (click)="save()">Guardar</ion-button>
+  </div>
 </ion-content>
