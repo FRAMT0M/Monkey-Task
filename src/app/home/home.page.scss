@@ -1,54 +1,42 @@
 .container {
-  max-width: 600px;
-  margin: 0 auto;
   padding: 20px;
-}
 
-h1 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
 
-.task-list {
-  margin-bottom: 20px;
-}
+  .task-list {
+    ion-grid {
+      ion-row {
+        ion-col {
+          padding: 10px;
+        }
+      }
+    }
 
-.statistics {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
+    .task-card {
+      ion-card-header {
+        ion-card-title {
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
 
-.statistic-card {
-  flex-basis: calc(33.33% - 10px);
-  background-color: #f4f4f4;
-  border-radius: 4px;
-  padding: 10px;
-  text-align: center;
-}
+      ion-card-content {
+        p {
+          font-size: 14px;
+          margin: 10px 0;
+        }
+      }
+    }
+  }
 
-.statistic-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  color: black; /* Cambia el color del texto a negro */
-}
-
-.statistic-header ion-icon {
-  margin-right: 10px;
-}
-
-.statistic-value {
-  font-size: 24px;
-  font-weight: bold;
-  color: black; /* Cambia el color del texto a negro */
-}
-
-.footer {
-  text-align: center;
-  font-size: 12px;
-  color: #999999;
-  margin-top: 20px;
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #000;
+    font-size: 12px;
+  }
 }

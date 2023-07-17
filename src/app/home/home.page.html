@@ -9,48 +9,24 @@
     <h1>Mis Tareas</h1>
 
     <div class="task-list">
-      <ion-list>
-        <ion-item *ngFor="let task of tasks">
-          <ion-label>{{ task.name }}</ion-label>
-          <ion-badge slot="end" [color]="getStatusColor(task.status)">{{ task.status }}</ion-badge>
-        </ion-item>
-      </ion-list>
-    </div>
-
-    <div class="statistics">
-      <div class="statistic-card">
-        <div class="statistic-header">
-          <ion-icon name="stats-chart-outline"></ion-icon>
-          <h2>Tareas Completadas</h2>
-        </div>
-        <div class="statistic-value">{{ getCompletedTasksCount() }}</div>
-      </div>
-
-      <div class="statistic-card">
-        <div class="statistic-header">
-          <ion-icon name="hourglass-outline"></ion-icon>
-          <h2>Tareas Pendientes</h2>
-        </div>
-        <div class="statistic-value">{{ getPendingTasksCount() }}</div>
-      </div>
-
-      <div class="statistic-card">
-        <div class="statistic-header">
-          <ion-icon name="time-outline"></ion-icon>
-          <h2>Tareas En Proceso</h2>
-        </div>
-        <div class="statistic-value">{{ getInProgressTasksCount() }}</div>
-      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let task of tasks">
+            <ion-card [color]="getTaskColor(task.status)">
+              <ion-card-header>
+                <ion-card-title>{{ task.name }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p>{{ task.description }}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 
     <div class="footer">
       <p>Derechos de autor &copy; 2023 Monkey-Task. Todos los derechos reservados.</p>
     </div>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="addTask()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
   </div>
 </ion-content>
