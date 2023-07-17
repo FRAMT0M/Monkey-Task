@@ -1,72 +1,49 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonTabBar, IonList, AlertController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ListService } from '../list.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
 })
 export class HomePage {
-  @ViewChild('myTabs', { static: false }) tabRef!: IonTabBar;
-  @ViewChild('myList', { static: false }) listRef!: IonList;
-  tabs: any[];
-  tabIndex: number;
-  reorder: boolean;
+  tasks: any[] = [];
 
-  constructor(
-    private listService: ListService,
-    private alertController: AlertController
-  ) {
-    this.tabs = [
-      { label: 'School', icon: 'school', list: [] },
-      { label: 'Home', icon: 'home', list: [] }
-    ];
-    this.tabs.forEach((tab, index) => {
-      tab.list = this.listService.getList(index);
-    });
-    this.tabIndex = 0;
-    this.reorder = false;
+  constructor(private router: Router, private listService: ListService) {}
+
+  ngOnInit() {
+    // Obtener las tareas del servicio
+    this.tasks = this.listService.getTasks();
   }
 
-  toggleReorder() {
-    this.reorder = !this.reorder;
-    this.listRef.closeSlidingItems();
+  getStatusColor(status: string) {
+    switch (status) {
+      case 'Pendiente':
+        return 'warning';
+      case 'En Proceso':
+        return 'primary';
+      case 'Completado':
+        return 'success';
+      default:
+        return 'medium';
+    }
   }
 
-  setTab(tabIndex: number) {
-    this.tabIndex = tabIndex;
-    this.tabRef.selectedTab = this.tabs[this.tabIndex].label;
+  getCompletedTasksCount() {
+    return this.tasks.filter(task => task.status === 'Completado').length;
   }
 
-  async deleteItem(item?: any) {
-    const alert = await this.alertController.create({
-      header: item === undefined ? 'Delete all' : 'Delete item',
-      message: 'Are you sure?',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.listRef.closeSlidingItems();
-            if (item === undefined) {
-              this.listService.deleteList(this.tabIndex);
-            } else {
-              this.listService.deleteItem(this.tabIndex, item);
-            }
-          }
-        },
-        {
-          text: 'CANCEL',
-          role: 'cancel'
-        }
-      ]
-    });
-
-    await alert.present();
+  getPendingTasksCount() {
+    return this.tasks.filter(task => task.status === 'Pendiente').length;
   }
 
-  moveItem(indexes: any) {
-    this.listService.moveItem(this.tabIndex, indexes.from, indexes.to);
-    indexes.complete();
+  getInProgressTasksCount() {
+    return this.tasks.filter(task => task.status === 'En Proceso').length;
+  }
+
+  addTask() {
+    // Redireccionar a la página de agregar/editar tarea
+    this.router.navigate(['/add-edit-item']);
   }
 }

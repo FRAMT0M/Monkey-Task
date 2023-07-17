@@ -23,7 +23,14 @@ export class AddEditItemPage {
     'Animación'
   ];
 
+  statuses: string[] = [
+    'Pendiente',
+    'En Proceso',
+    'Completado'
+  ];
+
   selectedDepartment: string = '';
+  selectedStatus: string = '';
   item: any = {};
 
   constructor(
@@ -41,10 +48,19 @@ export class AddEditItemPage {
     const newItem = {
       date: this.item.date || new Date().toISOString(),
       task: this.item.task,
-      department: this.selectedDepartment
+      department: this.selectedDepartment,
+      status: this.selectedStatus
     };
 
     this.listService.addItem(newItem);
-    this.router.navigate(['/home']);
+
+    // Esperar un breve momento antes de redirigir a la página de inicio
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 100);
+  }
+
+  updateSelectedStatus(event: any) {
+    this.selectedStatus = event.detail.value;
   }
 }

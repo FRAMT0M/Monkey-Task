@@ -1,47 +1,56 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Monkey-Task</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="deleteItem()" color="danger">
-        <ion-icon slot="icon-only" name="trash"></ion-icon>
-      </ion-button>  
-      <ion-button (click)="toggleReorder()">
-        <ion-icon slot="icon-only" name="reorder-four"></ion-icon>
-      </ion-button>
-      <ion-button [routerLink]="['/add-edit-item', { tab:tabIndex, item:-1 }]">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>       
+  <ion-toolbar>
+    <ion-title>Monkey-Task Dashboard</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list #myList lines="full">
-    <ion-reorder-group [disabled]="!reorder" (ionItemReorder)="moveItem($event)">
-      <ion-item-sliding *ngFor="let item of tabs[tabIndex].list; let i=index">
-        <ion-item [routerLink]="['/add-edit-item', { tab:tabIndex, item:i }]"  >
-          <ion-label class="ion-text-wrap">
-            <h2>{{item.task}}</h2>
-            <p>{{item.date.substring(0,10)}}</p>
-          </ion-label>
-          <ion-icon slot="end" [name]="item.icon"></ion-icon>
-          <ion-reorder slot="end"></ion-reorder>
-        </ion-item>
-        <ion-item-options side="start">
-          <ion-item-option color="danger" (click)="deleteItem(i)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-reorder-group>
-  </ion-list>
-</ion-content>
+  <div class="container">
+    <h1>Mis Tareas</h1>
 
-<ion-footer>
-  <ion-tab-bar #myTabs color="primary" [selectedTab]="tabs[0].label">
-    <ion-tab-button *ngFor="let tab of tabs; let i=index" (click)="setTab(i)" [tab]="tab.label">
-      <ion-label>{{tab.label}}</ion-label>
-      <ion-icon [name]="tab.icon"></ion-icon>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-footer>
+    <div class="task-list">
+      <ion-list>
+        <ion-item *ngFor="let task of tasks">
+          <ion-label>{{ task.name }}</ion-label>
+          <ion-badge slot="end" [color]="getStatusColor(task.status)">{{ task.status }}</ion-badge>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="statistics">
+      <div class="statistic-card">
+        <div class="statistic-header">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+          <h2>Tareas Completadas</h2>
+        </div>
+        <div class="statistic-value">{{ getCompletedTasksCount() }}</div>
+      </div>
+
+      <div class="statistic-card">
+        <div class="statistic-header">
+          <ion-icon name="hourglass-outline"></ion-icon>
+          <h2>Tareas Pendientes</h2>
+        </div>
+        <div class="statistic-value">{{ getPendingTasksCount() }}</div>
+      </div>
+
+      <div class="statistic-card">
+        <div class="statistic-header">
+          <ion-icon name="time-outline"></ion-icon>
+          <h2>Tareas En Proceso</h2>
+        </div>
+        <div class="statistic-value">{{ getInProgressTasksCount() }}</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Derechos de autor &copy; 2023 Monkey-Task. Todos los derechos reservados.</p>
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addTask()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>
