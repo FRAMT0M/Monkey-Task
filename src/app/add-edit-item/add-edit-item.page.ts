@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Task } from '../models/task.model';
 import { ListService } from '../list.service';
 
 @Component({
@@ -7,60 +8,33 @@ import { ListService } from '../list.service';
   templateUrl: './add-edit-item.page.html',
   styleUrls: ['./add-edit-item.page.scss'],
 })
-export class AddEditItemPage {
-  departments: string[] = [
-    'Mantenimiento',
-    'Ama de llaves',
-    'Recepción',
-    'Departamento de Calidad',
-    'Alimentos y bebidas',
-    'Cocina',
-    'Administración',
-    'Comercial',
-    'Manager y Social Media',
-    'Seguridad',
-    'Vacation Club',
-    'Animación'
-  ];
+export class AddEditItemPage implements OnInit {
+  task: Task = {
+    id: 0,
+    name: '',
+    time: new Date(),
+    status: 'Pendiente',
+    department: '',
+  };
 
-  statuses: string[] = [
-    'Pendiente',
-    'En Proceso',
-    'Completado'
-  ];
-
-  selectedDepartment: string = '';
-  selectedStatus: string = '';
-  item: any = {};
+  departments: string[] = [];
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
+    private router: Router,
     private listService: ListService
   ) {}
 
-  save() {
-    if (!this.item.task) {
-      console.error('La tarea no puede estar vacía.');
-      return;
-    }
-
-    const newItem = {
-      date: this.item.date || new Date().toISOString(),
-      task: this.item.task,
-      department: this.selectedDepartment,
-      status: this.selectedStatus
-    };
-
-    this.listService.addItem(newItem);
-
-    // Esperar un breve momento antes de redirigir a la página de inicio
-    setTimeout(() => {
-      this.router.navigate(['/home']);
-    }, 100);
+  ngOnInit() {
+    this.departments = ['Departamento 1', 'Departamento 2', 'Departamento 3', 'Departamento 4'];
   }
 
-  updateSelectedStatus(event: any) {
-    this.selectedStatus = event.detail.value;
+  onSave() {
+    this.listService.addTask(this.task);
+    this.router.navigate(['/home']);
+  }
+
+  onCancel() {
+    this.router.navigate(['/home']);
   }
 }

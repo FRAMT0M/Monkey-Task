@@ -19,6 +19,7 @@
                 <div class="task-status">{{ task.status }}</div>
               </div>
               <div class="task-name">{{ task.name }}</div>
+              <ion-button (click)="onDeleteTask(task)">Eliminar</ion-button>
             </div>
           </ion-col>
         </ion-row>
