@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Task } from '../models/task.model';
 import { ListService } from '../list.service';
 
@@ -7,37 +7,63 @@ import { ListService } from '../list.service';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
   tasks: Task[] = [];
-  selectedDepartment: string = 'Todos';
-  departments: string[] = [];
+
+  newTask: Task = {
+    id: 0,
+    name: '',
+    time: new Date(),
+    status: 'Pendiente',
+    department: '',
+  };
 
   constructor(private listService: ListService) {}
 
   ngOnInit() {
-    this.tasks = this.listService.getTasks();
-    this.departments = this.listService.getDepartments();
+    this.tasks = this.listService.getAllTasks();
   }
 
-  getTaskStatusClass(status: string) {
-    // Agrega aquí la lógica para devolver la clase CSS según el estado de la tarea (pendiente, en progreso, completada, etc.).
-    // Ejemplo:
-    // if (status === 'Pendiente') {
-    //   return 'task-pending';
-    // } else if (status === 'En progreso') {
-    //   return 'task-in-progress';
-    // } else if (status === 'Completada') {
-    //   return 'task-completed';
-    // } else {
-    //   return '';
-    // }
+  getTaskStatusClass(status: string): string {
+    if (status === 'completed') {
+      return 'task-completed';
+    } else if (status === 'pending') {
+      return 'task-pending';
+    } else {
+      return 'task-default';
+    }
+  }
+
+  getTaskStatusColor(status: string): string {
+    if (status === 'completed') {
+      return '#28a745'; // Verde
+    } else if (status === 'pending') {
+      return '#ffcc00'; // Amarillo
+    } else {
+      return '#6c757d'; // Gris
+    }
   }
 
   onDeleteTask(task: Task) {
-    // Agrega aquí la lógica para eliminar una tarea.
-    // Por ejemplo:
-    // this.listService.deleteTask(task);
-    // Actualiza la lista de tareas después de eliminar la tarea si es necesario.
-    // this.tasks = this.listService.getTasks();
+    this.listService.deleteTask(task);
+    this.tasks = this.listService.getAllTasks();
+  }
+
+  onAddTask() {
+    this.newTask.id = this.generateUniqueId();
+    this.listService.addTask(this.newTask);
+    this.newTask = {
+      id: 0,
+      name: '',
+      time: new Date(),
+      status: 'Pendiente',
+      department: '',
+    };
+    this.tasks = this.listService.getAllTasks();
+  }
+
+  private generateUniqueId(): number {
+    // Generar un ID único basado en la fecha y hora actual en milisegundos
+    return Date.now();
   }
 }

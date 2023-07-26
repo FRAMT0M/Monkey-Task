@@ -14,9 +14,13 @@
           <ion-col size="6" *ngFor="let task of tasks">
             <div class="task-card" [ngClass]="getTaskStatusClass(task.status)">
               <div class="task-info">
+                
                 <div class="task-department">{{ task.department }}</div>
+                
                 <div class="task-time">{{ task.time }}</div>
+
                 <div class="task-status">{{ task.status }}</div>
+
               </div>
               <div class="task-name">{{ task.name }}</div>
               <ion-button (click)="onDeleteTask(task)">Eliminar</ion-button>

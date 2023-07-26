@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task } from './models/task.model';
+import { Task } from './models/task.model'; // Asegúrate de que la ruta sea correcta para el modelo Task
 
 @Injectable({
   providedIn: 'root',
@@ -7,42 +7,22 @@ import { Task } from './models/task.model';
 export class ListService {
   private tasks: Task[] = [];
 
-  constructor() {
-    // Inicializamos el arreglo de tareas con algunos datos de ejemplo
-    this.tasks = [
-      {
-        id: 1,
-        name: 'Tarea 1',
-        time: new Date(),
-        status: 'Pendiente',
-        department: 'Departamento 1',
-      },
-      {
-        id: 2,
-        name: 'Tarea 2',
-        time: new Date(),
-        status: 'En progreso',
-        department: 'Departamento 2',
-      },
-      {
-        id: 3,
-        name: 'Tarea 3',
-        time: new Date(),
-        status: 'Completada',
-        department: 'Departamento 3',
-      },
-    ];
+  constructor() {}
+
+  addTask(task: Task) {
+    this.tasks.push(task);
   }
 
-  // Retorna todas las tareas
-  getTasks(): Task[] {
+  // Agrega otros métodos para gestionar las tareas si es necesario
+
+  getAllTasks(): Task[] {
     return this.tasks;
   }
 
-  // Agregamos esta función para eliminar una tarea
-  deleteTask(taskId: number): void {
-    this.tasks = this.tasks.filter((task) => task.id !== taskId);
+  deleteTask(task: Task) {
+    const taskIndex = this.tasks.indexOf(task);
+    if (taskIndex !== -1) {
+      this.tasks.splice(taskIndex, 1);
+    }
   }
-
-  // Otras funciones del servicio, si las tienes...
 }
