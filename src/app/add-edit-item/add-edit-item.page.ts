@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from '../models/task.model';
-import { ListService } from '../list.service';
+import { ListService } from '../app/list.service'; // Asegúrate de que la ruta sea correcta para el servicio ListService
 
 @Component({
   selector: 'app-add-edit-item',

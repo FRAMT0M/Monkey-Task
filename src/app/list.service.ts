@@ -1,28 +1,61 @@
-import { Injectable } from '@angular/core';
-import { Task } from './models/task.model'; // Asegúrate de que la ruta sea correcta para el modelo Task
+import { Component } from '@angular/core';
+import { Task } from './models/task.model';
+import { ListService } from '../app/list.service';
 
-@Injectable({
-  providedIn: 'root',
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
 })
-export class ListService {
-  private tasks: Task[] = [];
+export class HomePage {
+  tasks: Task[] = [];
 
-  constructor() {}
+  newTask: Task = {
+    id: 0,
+    name: '',
+    time: new Date(),
+    status: 'Pendiente',
+    department: '',
+  };
 
-  addTask(task: Task) {
-    this.tasks.push(task);
+  constructor(private listService: ListService) {}
+
+  ngOnInit() {
+    this.tasks = this.listService.getAllTasks();
   }
 
-  // Agrega otros métodos para gestionar las tareas si es necesario
-
-  getAllTasks(): Task[] {
-    return this.tasks;
-  }
-
-  deleteTask(task: Task) {
-    const taskIndex = this.tasks.indexOf(task);
-    if (taskIndex !== -1) {
-      this.tasks.splice(taskIndex, 1);
+  getTaskStatusClass(status: string): string {
+    if (status === 'Pendiente') {
+      return 'task-pending';
+    } else if (status === 'En progreso') {
+      return 'task-in-progress';
+    } else if (status === 'Completada') {
+      return 'task-completed';
+    } else {
+      return 'task-default';
     }
+  }
+
+  onDeleteTask(task: Task) {
+    this.listService.deleteTask(task);
+    this.tasks = this.listService.getAllTasks();
+  }
+
+  onAddTask() {
+    this.newTask.id = this.generateUniqueId();
+    this.listService.addTask(this.newTask);
+    this.newTask = {
+      id: 0,
+      name: '',
+      time: new Date(),
+      status: 'Pendiente',
+      department: '',
+    };
+    this.tasks = this.listService.getAllTasks();
+  }
+
+  private generateUniqueId(): number {
+    // Generar un ID único basado en la fecha y hora actual en milisegundos
+    return Date.now();
   }
 }

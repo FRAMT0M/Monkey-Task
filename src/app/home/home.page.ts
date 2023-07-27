@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Task } from '../models/task.model';
-import { ListService } from '../list.service';
+import { ListService } from '../app/list.service'; // Asegúrate de que la ruta sea correcta para el servicio ListService
 
 @Component({
   selector: 'app-home',
@@ -25,22 +25,14 @@ export class HomePage {
   }
 
   getTaskStatusClass(status: string): string {
-    if (status === 'completed') {
-      return 'task-completed';
-    } else if (status === 'pending') {
+    if (status === 'Pendiente') {
       return 'task-pending';
+    } else if (status === 'En progreso') {
+      return 'task-in-progress';
+    } else if (status === 'Completada') {
+      return 'task-completed';
     } else {
       return 'task-default';
-    }
-  }
-
-  getTaskStatusColor(status: string): string {
-    if (status === 'completed') {
-      return '#28a745'; // Verde
-    } else if (status === 'pending') {
-      return '#ffcc00'; // Amarillo
-    } else {
-      return '#6c757d'; // Gris
     }
   }
 
