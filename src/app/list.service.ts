@@ -1,61 +1,33 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Task } from './models/task.model';
-import { ListService } from '../app/list.service';
 
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+@Injectable({
+  providedIn: 'root'
 })
-export class HomePage {
-  tasks: Task[] = [];
+export class ListService {
+  private tasks: Task[] = [];
 
-  newTask: Task = {
-    id: 0,
-    name: '',
-    time: new Date(),
-    status: 'Pendiente',
-    department: '',
-  };
+  constructor() {}
 
-  constructor(private listService: ListService) {}
-
-  ngOnInit() {
-    this.tasks = this.listService.getAllTasks();
+  getAllTasks(): Task[] {
+    return this.tasks;
   }
 
-  getTaskStatusClass(status: string): string {
-    if (status === 'Pendiente') {
-      return 'task-pending';
-    } else if (status === 'En progreso') {
-      return 'task-in-progress';
-    } else if (status === 'Completada') {
-      return 'task-completed';
-    } else {
-      return 'task-default';
+  addTask(task: Task): void {
+    this.tasks.push(task);
+  }
+
+  deleteTask(task: Task): void {
+    const index = this.tasks.findIndex(t => t.id === task.id);
+    if (index !== -1) {
+      this.tasks.splice(index, 1);
     }
   }
 
-  onDeleteTask(task: Task) {
-    this.listService.deleteTask(task);
-    this.tasks = this.listService.getAllTasks();
-  }
-
-  onAddTask() {
-    this.newTask.id = this.generateUniqueId();
-    this.listService.addTask(this.newTask);
-    this.newTask = {
-      id: 0,
-      name: '',
-      time: new Date(),
-      status: 'Pendiente',
-      department: '',
-    };
-    this.tasks = this.listService.getAllTasks();
-  }
-
-  private generateUniqueId(): number {
-    // Generar un ID único basado en la fecha y hora actual en milisegundos
-    return Date.now();
+  saveTask(task: Task): void {
+    // Aquí podrías implementar la lógica para guardar la tarea en una base de datos o realizar alguna otra acción necesaria
+    // Por ejemplo, si tienes una API, podrías hacer una llamada POST para guardar la tarea en el servidor.
+    // Por simplicidad, en este servicio, simplemente agregamos la tarea a la lista de tareas utilizando el método addTask.
+    this.addTask(task);
   }
 }

@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { Task } from '../models/task.model';
-import { ListService } from '../app/list.service'; // Asegúrate de que la ruta sea correcta para el servicio ListService
+import { Component, OnInit } from '@angular/core';
+import { Task } from '../models/task.model'; // Corregimos la ruta de importación
+import { ListService } from '../list.service'; // Corregimos la ruta de importación
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   tasks: Task[] = [];
 
   newTask: Task = {
