@@ -25,9 +25,22 @@ export class AddEditItemPage {
   ) {}
 
   ngOnInit() {
-    this.departments = ['Departamento 1', 'Departamento 2', 'Departamento 3', 'Departamento 4'];
+    this.departments = [
+      'Mantenimiento',
+      'Ama de llaves',
+      'Recepción',
+      'Departamento de Calidad',
+      'Alimentos y bebidas',
+      'Cocina',
+      'Administración',
+      'Comercial',
+      'Manager y Social Media',
+      'Seguridad',
+      'Vacation Club',
+      'Animación'
+    ];
   }
-
+  
   onSave() {
     // Llama al método saveTask del ListService para guardar la tarea
     this.listService.saveTask(this.task);
