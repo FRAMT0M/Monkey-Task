@@ -21,6 +21,10 @@ const routes: Routes = [
     path: 'login', // Ruta para la página de inicio de sesión
     loadChildren: () => import('./login/login.module').then(m => m.LoginComponentModule),
   },
+  {
+    path: 'gerente',
+    loadChildren: () => import('./gerente/gerente.module').then(m => m.GerentePageModule),
+  },  
 ];
 
 @NgModule({
