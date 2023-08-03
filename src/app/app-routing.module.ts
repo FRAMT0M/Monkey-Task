@@ -1,26 +1,30 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthService } from './auth.service'; // Importar el guardia de ruta
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    //canActivate: [AuthService], // Agregar el guardia de ruta para proteger el acceso
   },
   {
     path: 'add-edit-item',
-    loadChildren: () => import('./add-edit-item/add-edit-item.module').then( m => m.AddEditItemPageModule)
+    loadChildren: () => import('./add-edit-item/add-edit-item.module').then(m => m.AddEditItemPageModule),
+  },
+  {
+    path: '', // Ruta raíz, aquí podrías redirigir al inicio de sesión si se desea
+    redirectTo: 'login', // Redirigir al inicio de sesión si no se especifica una ruta
+    pathMatch: 'full',
+  },
+  {
+    path: 'login', // Ruta para la página de inicio de sesión
+    loadChildren: () => import('./login/login.module').then(m => m.LoginComponentModule),
   },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
