@@ -1,0 +1,75 @@
+// Font Family
+$base-font: 'Roboto', sans-serif;
+
+// Colors
+$primary-color: #3498db;
+$text-color: #fff;
+$input-background: #333;
+$button-background: $primary-color;
+$button-text-color: #fff;
+
+// Container
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000; // Fondo negro
+  font-family: $base-font;
+}
+
+// Card
+.card {
+  background-color: $input-background;
+  width: 400px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: $text-color;
+  
+  .card-header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    .card-title {
+      font-size: 36px;
+      color: $primary-color;
+    }
+  }
+  
+  .card-content {
+    ion-item {
+      margin-bottom: 20px;
+      
+      ion-label {
+        color: $text-color;
+        font-weight: bold;
+      }
+      
+      ion-input {
+        background-color: $input-background;
+        color: $text-color;
+        border-radius: 5px;
+        border: 1px solid $primary-color; // Color del borde del input
+        padding-left: 10px;
+        
+        &::placeholder {
+          color: $primary-color;
+        }
+      }
+    }
+    
+    .login-button {
+      ion-button {
+        background-color: $button-background;
+        color: $button-text-color;
+        width: 100%;
+        border-radius: 5px;
+        
+        &:hover {
+          background-color: darken($button-background, 10%);
+        }
+      }
+    }
+  }
+}
