@@ -7,13 +7,16 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ListService } from './list.service';
+import { TaskService } from './task.service'; // Asegúrate de haber agregado esta línea
+import { JefesDepartamentosModule } from './jefes-departamentos/jefes-departamentos.module'; // Agrega esta línea
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, JefesDepartamentosModule], // Agrega JefesDepartamentosModule aquí
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ListService
+    ListService,
+    TaskService // Asegúrate de haber agregado TaskService aquí
   ],
   bootstrap: [AppComponent],
 })

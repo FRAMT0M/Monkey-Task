@@ -6,11 +6,15 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-    //canActivate: [AuthService], // Agregar el guardia de ruta para proteger el acceso
+    // canActivate: [AuthService], // Agregar el guardia de ruta para proteger el acceso
   },
   {
     path: 'add-edit-item',
     loadChildren: () => import('./add-edit-item/add-edit-item.module').then(m => m.AddEditItemPageModule),
+  },
+  {
+    path: 'jefes-departamentos', // Ruta para la página de jefes departamentos
+    loadChildren: () => import('./jefes-departamentos/jefes-departamentos.module').then(m => m.JefesDepartamentosModule),
   },
   {
     path: '', // Ruta raíz, aquí podrías redirigir al inicio de sesión si se desea

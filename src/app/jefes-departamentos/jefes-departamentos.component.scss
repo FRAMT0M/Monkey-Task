@@ -1,0 +1,56 @@
+.task-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .task-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: calc(50% - 20px);
+    box-sizing: border-box;
+    position: relative;
+  
+    &.Pendiente {
+      background-color: #ffcccc;
+    }
+  
+    &.En-progreso {
+      background-color: #ffffcc;
+    }
+  
+    &.Completada {
+      background-color: #ccffcc;
+    }
+  
+    .task-info {
+      font-size: 12px;
+      color: #666;
+  
+      .task-department {
+        font-weight: bold;
+      }
+  
+      .task-time {
+        margin-top: 5px;
+      }
+  
+      .task-status {
+        margin-top: 5px;
+      }
+    }
+  
+    .task-name {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  
+    ion-button {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 12px;
+    }
+  }
+  
